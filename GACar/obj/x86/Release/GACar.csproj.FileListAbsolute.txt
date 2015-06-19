@@ -1,3 +1,0 @@
-C:\Users\User\Desktop\GACar\GACar\obj\x86\Release\GACar.Form1.resources
-C:\Users\User\Desktop\GACar\GACar\obj\x86\Release\GACar.Properties.Resources.resources
-C:\Users\User\Desktop\GACar\GACar\obj\x86\Release\GACar.csproj.GenerateResource.Cache

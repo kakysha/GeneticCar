@@ -1,7 +1,0 @@
-C:\Users\User\Desktop\GACar\SpriteLibrary\obj\x86\Debug\SpriteLibrary.csprojResolveAssemblyReference.cache
-C:\Users\User\Desktop\GACar\SpriteLibrary\bin\x86\Debug\SpriteLibrary.dll
-C:\Users\User\Desktop\GACar\SpriteLibrary\bin\x86\Debug\SpriteLibrary.pdb
-C:\Users\User\Desktop\GACar\SpriteLibrary\bin\x86\Debug\GeneticLibrary.dll
-C:\Users\User\Desktop\GACar\SpriteLibrary\bin\x86\Debug\GeneticLibrary.pdb
-C:\Users\User\Desktop\GACar\SpriteLibrary\obj\x86\Debug\SpriteLibrary.dll
-C:\Users\User\Desktop\GACar\SpriteLibrary\obj\x86\Debug\SpriteLibrary.pdb
