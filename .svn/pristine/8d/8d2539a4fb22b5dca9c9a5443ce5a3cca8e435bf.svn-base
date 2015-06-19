@@ -1,0 +1,63 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Drawing;
+
+namespace SpriteLibrary
+{
+    public class ExplosionSprite : Sprite
+    {
+        //Constructor
+        public ExplosionSprite(int particles, Color startColor, Color endColor, int startDiam, int endDiam, int lifeSpan)
+        {
+            _lifeSpan = lifeSpan;
+            while (particles > 0)
+            {
+                Particle p = new Particle();
+                p.Color = Sprite.ColorFromRange(startColor, endColor);
+                p.DirectionX = Sprite.RND.NextDouble() * 4 - 2;
+                p.DirectionY = Sprite.RND.NextDouble() * 4 - 2;
+                p.Diameter = Sprite.RND.Next(endDiam - startDiam) + startDiam;
+                _particles.Add(p);
+                particles--;
+            }
+            Shape = new RectangleF(-15, -15, 30, 30);
+        }
+
+        //уменьшаем кол-во жизней спрайта
+        protected internal override void Process()
+        {
+            _lifeSpan--;
+            if (_lifeSpan <= 0)
+                Kill();
+        }
+
+        //Прорисовка
+        public override void Render(Graphics g)
+        {
+            Brush b;
+            foreach (Particle p in _particles)
+            {
+                int x = (int)(X - 12 + p.X - p.Diameter / 2);
+                int y = (int)(Y - 12 + p.Y - p.Diameter / 2);
+                p.X += p.DirectionX;
+                p.Y += p.DirectionY;
+                b = new SolidBrush(p.Color);
+                g.FillEllipse(b, x, y, p.Diameter * 2, p.Diameter * 2);
+            }
+        }
+
+        private List<Particle> _particles = new List<Particle>();
+        private int _lifeSpan;
+    }
+
+    internal class Particle
+    {
+        internal double X = 0;
+        internal double Y = 0;
+        internal Color Color;
+        internal double DirectionX;
+        internal double DirectionY;
+        internal int Diameter;
+    }
+}

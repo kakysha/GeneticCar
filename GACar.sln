@@ -1,0 +1,77 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpriteLibrary", "SpriteLibrary\SpriteLibrary.csproj", "{1940E55D-38C6-4CE1-AEB6-434C617E5848}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GACar", "GACar\GACar.csproj", "{EC8DE231-AC71-4264-B2EB-1798C7B52975}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneticLibrary", "GeneticLibrary\GeneticLibrary.csproj", "{3EB36011-1199-4738-98E8-C04CEB245B39}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://kak.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = GACar\\GACar.csproj
+		SccProjectName1 = GACar
+		SccLocalPath1 = GACar
+		SccProjectUniqueName2 = SpriteLibrary\\SpriteLibrary.csproj
+		SccProjectName2 = SpriteLibrary
+		SccLocalPath2 = SpriteLibrary
+		SccProjectUniqueName3 = GeneticLibrary\\GeneticLibrary.csproj
+		SccProjectName3 = GeneticLibrary
+		SccLocalPath3 = GeneticLibrary
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1940E55D-38C6-4CE1-AEB6-434C617E5848}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1940E55D-38C6-4CE1-AEB6-434C617E5848}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1940E55D-38C6-4CE1-AEB6-434C617E5848}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1940E55D-38C6-4CE1-AEB6-434C617E5848}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1940E55D-38C6-4CE1-AEB6-434C617E5848}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1940E55D-38C6-4CE1-AEB6-434C617E5848}.Debug|x86.Build.0 = Debug|Any CPU
+		{1940E55D-38C6-4CE1-AEB6-434C617E5848}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1940E55D-38C6-4CE1-AEB6-434C617E5848}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1940E55D-38C6-4CE1-AEB6-434C617E5848}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1940E55D-38C6-4CE1-AEB6-434C617E5848}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1940E55D-38C6-4CE1-AEB6-434C617E5848}.Release|x86.ActiveCfg = Release|x86
+		{1940E55D-38C6-4CE1-AEB6-434C617E5848}.Release|x86.Build.0 = Release|x86
+		{EC8DE231-AC71-4264-B2EB-1798C7B52975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC8DE231-AC71-4264-B2EB-1798C7B52975}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC8DE231-AC71-4264-B2EB-1798C7B52975}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{EC8DE231-AC71-4264-B2EB-1798C7B52975}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{EC8DE231-AC71-4264-B2EB-1798C7B52975}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC8DE231-AC71-4264-B2EB-1798C7B52975}.Debug|x86.Build.0 = Debug|Any CPU
+		{EC8DE231-AC71-4264-B2EB-1798C7B52975}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC8DE231-AC71-4264-B2EB-1798C7B52975}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC8DE231-AC71-4264-B2EB-1798C7B52975}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{EC8DE231-AC71-4264-B2EB-1798C7B52975}.Release|Mixed Platforms.Build.0 = Release|x86
+		{EC8DE231-AC71-4264-B2EB-1798C7B52975}.Release|x86.ActiveCfg = Release|x86
+		{EC8DE231-AC71-4264-B2EB-1798C7B52975}.Release|x86.Build.0 = Release|x86
+		{3EB36011-1199-4738-98E8-C04CEB245B39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EB36011-1199-4738-98E8-C04CEB245B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EB36011-1199-4738-98E8-C04CEB245B39}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3EB36011-1199-4738-98E8-C04CEB245B39}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3EB36011-1199-4738-98E8-C04CEB245B39}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3EB36011-1199-4738-98E8-C04CEB245B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EB36011-1199-4738-98E8-C04CEB245B39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EB36011-1199-4738-98E8-C04CEB245B39}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3EB36011-1199-4738-98E8-C04CEB245B39}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3EB36011-1199-4738-98E8-C04CEB245B39}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+EndGlobal

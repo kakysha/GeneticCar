@@ -1,0 +1,14 @@
+C:\Users\User\Desktop\GACar\GACar\obj\x86\Debug\GACar.Form1.resources
+C:\Users\User\Desktop\GACar\GACar\obj\x86\Debug\GACar.Properties.Resources.resources
+C:\Users\User\Desktop\GACar\GACar\obj\x86\Debug\GACar.csproj.GenerateResource.Cache
+C:\Users\User\Desktop\GACar\GACar\obj\x86\Debug\GACar.csprojResolveAssemblyReference.cache
+C:\Users\User\Desktop\GACar\GACar\bin\x86\Debug\Resources\wheel.png
+C:\Users\User\Desktop\GACar\GACar\bin\x86\Debug\GACar.exe
+C:\Users\User\Desktop\GACar\GACar\bin\x86\Debug\GACar.pdb
+C:\Users\User\Desktop\GACar\GACar\bin\x86\Debug\SpriteLibrary.dll
+C:\Users\User\Desktop\GACar\GACar\bin\x86\Debug\ZedGraph.dll
+C:\Users\User\Desktop\GACar\GACar\bin\x86\Debug\GeneticLibrary.dll
+C:\Users\User\Desktop\GACar\GACar\bin\x86\Debug\SpriteLibrary.pdb
+C:\Users\User\Desktop\GACar\GACar\bin\x86\Debug\GeneticLibrary.pdb
+C:\Users\User\Desktop\GACar\GACar\obj\x86\Debug\GACar.exe
+C:\Users\User\Desktop\GACar\GACar\obj\x86\Debug\GACar.pdb

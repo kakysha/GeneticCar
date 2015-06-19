@@ -1,0 +1,338 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
+using System.Drawing;
+using System.ComponentModel;
+using System.Data;
+
+
+namespace SpriteLibrary
+{
+	//Движок
+	public class SpriteEngine
+	{
+
+		//Вовзращает класс, отвечающий за передвижение
+		public DestinationMover GetMover(Sprite sprite) {
+			DestinationMover dm = (DestinationMover) sprite.MovementData;
+			return dm;
+		}
+
+		//Лист спрайтов в движке
+		public IList<Sprite> Sprites {
+			get {
+				return _spriteList;
+			}
+		}
+
+		private Size _surfaceSize;
+		private int _offSetX;
+		private int _offSetY;
+        private Sprite _movingSprite;
+        private PointF _movingStartPoint; //if we move sprite
+        private int _clickedCornerInd = -1; //if we resizing sprite
+
+        public PointF MovingStartPoint {
+            get {
+                return _movingStartPoint;
+            }
+            set {
+                _movingStartPoint = value;
+            }   
+        }
+
+        public int ClickedCornerInd {
+            get {
+                return _clickedCornerInd;
+            }
+            set {
+                _clickedCornerInd = value;
+            }
+        }
+
+        public Sprite MovingSprite {
+            get {
+                return _movingSprite;
+            }
+            set {
+                _movingSprite = value;
+            }
+        }
+
+		public Size SurfaceSize {
+			get {
+				return _surfaceSize;
+			}
+			set {
+				_surfaceSize = value;
+			}
+		}
+
+		public int OffSetX {
+			get {
+				return _offSetX;
+			}
+			set {
+				_offSetX = value;
+			}
+		}
+
+		public int OffSetY {
+			get {
+				return _offSetY;
+			}
+			set {
+				_offSetY = value;
+			}
+		}
+
+		//Добавление спрайта в движок
+		public void AddSprite(Sprite sprite) {
+			if (sprite.Shape.X == -1)
+				throw new InvalidOperationException("Sprite's Shape must be set before adding to SpriteEngine");
+			//sprite._engine = this;
+			InitializeSprite(sprite);
+			lock (_spriteList) {
+				_spriteList.Add(sprite);
+			}
+		}
+
+		//Удаление спрайта из движка
+		public void RemoveSprite(Sprite sprite) {
+			sprite.Kill();
+		}
+
+		//Очищение движка от всех спрайтов
+		public void Clear() {
+			lock (_spriteList)
+				foreach (Sprite sprite in _spriteList)
+					sprite.Kill();
+		}
+
+		internal List<Sprite> _spriteList = new List<Sprite>();
+		public Sprite movingSprite;
+
+		//Пемещение спрайтов
+		public void MoveSprites() {
+			//Вызов метода перемещения для каждого спрайта в движке
+			lock (_spriteList) {
+				foreach (Sprite sprite in Sprites) {
+					sprite.PreProcess();
+					sprite.Process();
+					MoveSprite(sprite);
+				}
+			}
+		}
+
+		//Удаление мертвых спрайтов
+		public void RemoveDeadSprites() {
+			lock (_spriteList) {
+				for (int i = 0; i < Sprites.Count; i++) {
+					Sprite s = Sprites[i];
+					if (s.Dead) {
+						DeleteSprite(s);
+					}
+				}
+			}
+		}
+
+		//Удаление перед убийством
+		internal void DeleteSprite(Sprite sprite) {
+			_spriteList.Remove(sprite);
+			//sprite._engine = null;
+		}
+
+		protected void InitializeSprite(Sprite sprite) {
+			sprite.MovementData = new DestinationMover(sprite);
+		}
+
+		protected void MoveSprite(Sprite sprite) {
+			//Перемещаем один спрайт
+			DestinationMover sd = (DestinationMover) sprite.MovementData;
+			sd.MoveSprite();
+		}
+
+		//Обработка выхода за границы поля
+		public void WrapSprites() {
+			int Width = _surfaceSize.Width;
+			int Height = _surfaceSize.Height;
+			RectangleF region = new RectangleF(OffSetX, OffSetY, Width, Height);
+
+			lock (_spriteList) {
+				foreach (Sprite sprite in Sprites) {
+					if (!sprite.Bounds.IntersectsWith(region)) {
+						if (sprite.X < OffSetX)
+							sprite.X = Width + OffSetX - 1;
+						else if (sprite.X >= Width + OffSetX)
+							sprite.X = OffSetX;
+						if (sprite.Y < OffSetY)
+							sprite.Y = Height + OffSetY - 1;
+						else if (sprite.Y >= Height + OffSetY)
+							sprite.Y = OffSetY;
+					}
+				}
+			}
+		}
+
+		//Обработка столкновения спрайтов
+		public void PerformSelfCollisionDetection() {
+			lock (_spriteList) {
+				for (int i = 0; i < Sprites.Count; i++) {
+					Sprite s1 = Sprites[i];
+					for (int k = i + 1; k < Sprites.Count; k++) {
+						Sprite s2 = Sprites[k];
+						if (s1.ClickBounds.IntersectsWith(s2.ClickBounds)) {
+
+                            /*if ((s1.ClickBounds.Y + s1.ClickBounds.Height > s2.ClickBounds.Y) && (s1.ClickBounds.Y + s1.ClickBounds.Height < s2.ClickBounds.Y + s2.ClickBounds.Height)) {
+                                s1.PositionF = new PointF(s1.PositionF.X, s2.ClickBounds.Y - s1.ClickBounds.Height);
+                                PointF o = new PointF(s1.ClickBounds.X + s1.ClickBounds.Width / 2, s2.ClickBounds.Y + s2.ClickBounds.Height);
+                                PolygonSprite ps = (PolygonSprite)s2;
+                                PointF[] newPoints = new PointF[ps.Points.Length + 1];
+                                ps.Points.CopyTo(newPoints, 0);
+                                newPoints[newPoints.Length - 1] = o;
+                                ps.Points = newPoints;
+                            }*/
+                            
+
+                            if ((s2.ClickBounds.Y + s2.ClickBounds.Height > s1.ClickBounds.Y) && (s2.ClickBounds.Y + s2.ClickBounds.Height < s1.ClickBounds.Y + s1.ClickBounds.Height)) {
+                                s2.PositionF = new PointF(s2.PositionF.X, s1.ClickBounds.Y - s2.ClickBounds.Height);
+                            }
+						}
+					}
+				}
+			}
+		}
+	}
+
+	//Класс, перемещающий к определенной точке
+	public class DestinationMover
+	{
+		private Sprite _sprite;
+		private float _speed;
+		private float _destX;
+		private float _destY;
+		private float _speedX;
+		private float _speedY;
+		private bool _stopAtDestination = true;
+
+		//Constructor
+		public DestinationMover(Sprite sprite) {
+			_sprite = sprite;
+		}
+
+		//Скорость
+		public float Speed {
+			get {
+				return _speed;
+			}
+			set {
+				_speed = value;
+			}
+		}
+		public float SpeedX {
+			get {
+				return _speedX;
+			}
+			set {
+				_speedX = value;
+			}
+		}
+		public float SpeedY {
+			get {
+				return _speedY;
+			}
+			set {
+				_speedY = value;
+			}
+		}
+
+		//Точка назначения
+		public float DestX {
+			get {
+				return _destX;
+			}
+			set {
+				_destX = value;
+				CalculateVectors();
+			}
+		}
+		public float DestY {
+			get {
+				return _destY;
+			}
+			set {
+				_destY = value;
+				CalculateVectors();
+			}
+		}
+		public PointF DestinationF {
+			get {
+				return new PointF(_destX, _destY);
+			}
+			set {
+				_destX = value.X;
+				_destY = value.Y;
+				CalculateVectors();
+			}
+		}
+
+		//Останавливаться ли при достижении точки назначения?
+		public bool StopAtDestination {
+			get {
+				return _stopAtDestination;
+			}
+			set {
+				_stopAtDestination = value;
+			}
+		}
+
+		//Вычисление скоростей по осям в зависимости от точки назначения
+		private void CalculateVectors() {
+			float Dist = Math.Abs(DestinationF.X - _sprite.PositionF.X) + Math.Abs(DestinationF.Y - _sprite.PositionF.Y);
+			if (Dist > 0) {
+				float PctX = Math.Abs(DestinationF.X - _sprite.PositionF.X) / Dist;
+				float PctY = Math.Abs(DestinationF.Y - _sprite.PositionF.Y) / Dist;
+				_speedX = _speed * PctX;
+				_speedY = _speed * PctY;
+				if (DestinationF.X < _sprite.PositionF.X)
+					_speedX = -_speedX;
+				if (DestinationF.Y < _sprite.PositionF.Y)
+					_speedY = -_speedY;
+			} else {
+				_speedX = _speed / 2;
+				_speedY = _speedX;
+			}
+		}
+
+		//Перемещаем спрайт
+		internal void MoveSprite() {
+			if (!_stopAtDestination) {
+				_sprite.X += _speedX;
+				_sprite.Y += _speedY;
+			}
+				//Если остановился при достижении пункта назначения
+			else {
+				PointF OldPos = _sprite.PositionF;
+				float Temp;
+
+				Temp = _sprite.PositionF.X + _speedX;
+				if (_speedX > 0 && Temp > DestinationF.X)
+					_sprite.X = DestX;
+				else if (_speedX < 0 && Temp < DestinationF.X)
+					_sprite.X = DestX;
+				else
+					_sprite.X += SpeedX;
+
+				Temp = _sprite.PositionF.Y + _speedY;
+				if (_speedY > 0 && Temp > DestinationF.Y)
+					_sprite.Y = DestY;
+				else if (_speedY < 0 && Temp < DestinationF.Y)
+					_sprite.Y = DestY;
+				else
+					_sprite.Y += SpeedY;
+			}
+		}
+	}
+}
+

@@ -1,0 +1,11 @@
+C:\Users\User\Desktop\MaterialStrength\MaterialStrength\bin\Debug\MaterialStrength.exe
+C:\Users\User\Desktop\MaterialStrength\MaterialStrength\bin\Debug\MaterialStrength.pdb
+C:\Users\User\Desktop\MaterialStrength\MaterialStrength\bin\Debug\SpriteLibrary.dll
+C:\Users\User\Desktop\MaterialStrength\MaterialStrength\bin\Debug\ZedGraph.dll
+C:\Users\User\Desktop\MaterialStrength\MaterialStrength\bin\Debug\SpriteLibrary.pdb
+C:\Users\User\Desktop\MaterialStrength\MaterialStrength\obj\Debug\MaterialStrength.Form1.resources
+C:\Users\User\Desktop\MaterialStrength\MaterialStrength\obj\Debug\MaterialStrength.Properties.Resources.resources
+C:\Users\User\Desktop\MaterialStrength\MaterialStrength\obj\Debug\MaterialStrength.exe
+C:\Users\User\Desktop\MaterialStrength\MaterialStrength\obj\Debug\MaterialStrength.pdb
+C:\Users\User\Desktop\MaterialStrength\MaterialStrength\obj\Debug\MaterialStrength.csprojResolveAssemblyReference.cache
+C:\Users\User\Desktop\MaterialStrength\MaterialStrength\obj\Debug\MaterialStrength.csproj.GenerateResource.Cache

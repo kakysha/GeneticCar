@@ -1,0 +1,5 @@
+C:\Users\User\Desktop\GACar\GeneticLibrary\bin\Debug\GeneticLibrary.dll
+C:\Users\User\Desktop\GACar\GeneticLibrary\bin\Debug\GeneticLibrary.pdb
+C:\Users\User\Desktop\GACar\GeneticLibrary\obj\Debug\GeneticLibrary.dll
+C:\Users\User\Desktop\GACar\GeneticLibrary\obj\Debug\GeneticLibrary.pdb
+C:\Users\User\Desktop\GACar\GeneticLibrary\obj\Debug\GeneticLibrary.csprojResolveAssemblyReference.cache

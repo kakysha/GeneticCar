@@ -1,0 +1,237 @@
+﻿namespace MaterialStrength
+{
+    partial class Form1
+    {
+        /// <summary>
+        /// Требуется переменная конструктора.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Освободить все используемые ресурсы.
+        /// </summary>
+        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Код, автоматически созданный конструктором форм Windows
+
+        /// <summary>
+        /// Обязательный метод для поддержки конструктора - не изменяйте
+        /// содержимое данного метода при помощи редактора кода.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.polygon_btn = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.bmpsprt_button = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.fps_label = new System.Windows.Forms.Label();
+            this.force_chart = new ZedGraph.ZedGraphControl();
+            this.mom_chart = new ZedGraph.ZedGraphControl();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // polygon_btn
+            // 
+            this.polygon_btn.Location = new System.Drawing.Point(17, 24);
+            this.polygon_btn.Name = "polygon_btn";
+            this.polygon_btn.Size = new System.Drawing.Size(82, 23);
+            this.polygon_btn.TabIndex = 2;
+            this.polygon_btn.Text = "Балка";
+            this.polygon_btn.UseVisualStyleBackColor = true;
+            this.polygon_btn.Click += new System.EventHandler(this.polygon_btn_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::MaterialStrength.Properties.Resources.arrow;
+            this.pictureBox1.Location = new System.Drawing.Point(727, 165);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(45, 48);
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.bmpsprt_button);
+            this.groupBox2.Controls.Add(this.polygon_btn);
+            this.groupBox2.Location = new System.Drawing.Point(632, 12);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(145, 147);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Добавление";
+            // 
+            // bmpsprt_button
+            // 
+            this.bmpsprt_button.Location = new System.Drawing.Point(17, 51);
+            this.bmpsprt_button.Name = "bmpsprt_button";
+            this.bmpsprt_button.Size = new System.Drawing.Size(90, 23);
+            this.bmpsprt_button.TabIndex = 3;
+            this.bmpsprt_button.Text = "Точечная сила";
+            this.bmpsprt_button.UseVisualStyleBackColor = true;
+            this.bmpsprt_button.Click += new System.EventHandler(this.bmpsprt_button_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Location = new System.Drawing.Point(625, 12);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1, 261);
+            this.panel1.TabIndex = 6;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Location = new System.Drawing.Point(56, 272);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(570, 1);
+            this.panel2.TabIndex = 7;
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Location = new System.Drawing.Point(56, 12);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1, 261);
+            this.panel3.TabIndex = 8;
+            // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Location = new System.Drawing.Point(56, 12);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(570, 1);
+            this.panel4.TabIndex = 9;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(643, 250);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(134, 23);
+            this.button3.TabIndex = 14;
+            this.button3.Text = "Очистить";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(638, 176);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "FPS:";
+            // 
+            // fps_label
+            // 
+            this.fps_label.AutoSize = true;
+            this.fps_label.Location = new System.Drawing.Point(675, 176);
+            this.fps_label.Name = "fps_label";
+            this.fps_label.Size = new System.Drawing.Size(13, 13);
+            this.fps_label.TabIndex = 16;
+            this.fps_label.Text = "0";
+            // 
+            // force_chart
+            // 
+            this.force_chart.AutoValidate = System.Windows.Forms.AutoValidate.EnablePreventFocusChange;
+            this.force_chart.IsEnableHPan = false;
+            this.force_chart.IsEnableHZoom = false;
+            this.force_chart.IsEnableVPan = false;
+            this.force_chart.IsEnableVZoom = false;
+            this.force_chart.Location = new System.Drawing.Point(33, 279);
+            this.force_chart.Name = "force_chart";
+            this.force_chart.ScrollGrace = 0D;
+            this.force_chart.ScrollMaxX = 0D;
+            this.force_chart.ScrollMaxY = 0D;
+            this.force_chart.ScrollMaxY2 = 0D;
+            this.force_chart.ScrollMinX = 0D;
+            this.force_chart.ScrollMinY = 0D;
+            this.force_chart.ScrollMinY2 = 0D;
+            this.force_chart.Size = new System.Drawing.Size(601, 137);
+            this.force_chart.TabIndex = 17;
+            // 
+            // mom_chart
+            // 
+            this.mom_chart.Location = new System.Drawing.Point(33, 414);
+            this.mom_chart.Name = "mom_chart";
+            this.mom_chart.ScrollGrace = 0D;
+            this.mom_chart.ScrollMaxX = 0D;
+            this.mom_chart.ScrollMaxY = 0D;
+            this.mom_chart.ScrollMaxY2 = 0D;
+            this.mom_chart.ScrollMinX = 0D;
+            this.mom_chart.ScrollMinY = 0D;
+            this.mom_chart.ScrollMinY2 = 0D;
+            this.mom_chart.Size = new System.Drawing.Size(601, 136);
+            this.mom_chart.TabIndex = 18;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(784, 562);
+            this.Controls.Add(this.mom_chart);
+            this.Controls.Add(this.force_chart);
+            this.Controls.Add(this.fps_label);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.panel4);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.groupBox2);
+            this.DoubleBuffered = true;
+            this.HelpButton = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(800, 600);
+            this.MinimumSize = new System.Drawing.Size(800, 600);
+            this.Name = "Form1";
+            this.Text = "MaterialStrength";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
+            this.DoubleClick += new System.EventHandler(this.Form1_DoubleClick);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Button polygon_btn;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button bmpsprt_button;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label fps_label;
+        private ZedGraph.ZedGraphControl force_chart;
+        private ZedGraph.ZedGraphControl mom_chart;
+    }
+}
+

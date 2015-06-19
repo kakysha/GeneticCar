@@ -1,0 +1,59 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Drawing;
+
+namespace SpriteLibrary
+{
+    public class WaveSprite : Sprite
+    {
+        //constructor
+        public WaveSprite(int waves, float radius, int lifeSpan, Color startColor, Color endColor)
+        {
+            _lifeSpan = lifeSpan;
+            while (waves > 0)
+            {
+                Wave wave = new Wave();
+                wave.Color = Sprite.ColorFromRange(startColor, endColor);
+                wave.Radius = radius;
+                _waves.Add(wave);
+                waves--;
+            }
+            Shape = new RectangleF(-50, -50, 100, 100);
+        }
+
+        //Уменьшаем кол-во жизней
+        protected internal override void Process()
+        {
+            _lifeSpan--;
+            if (_lifeSpan <= 0)
+                Kill();
+        }
+
+        //Выводим спрайт
+        public override void Render(System.Drawing.Graphics g)
+        {
+            Pen pen = new Pen(Color.Black);
+            foreach (Wave wave in _waves)
+            {
+                wave.Radius += wave.ExpansionRate;
+                float w = wave.Radius * 2 + Sprite.RND.Next(6) - 3;
+                float h = wave.Radius * 2 + Sprite.RND.Next(6) - 3;
+                float x = X - wave.Radius + Sprite.RND.Next(6) - 3;
+                float y = Y - wave.Radius + Sprite.RND.Next(6) - 3;
+                pen.Color = wave.Color;
+                g.DrawEllipse(pen, x - 12, y - 12, w, h);
+            }
+        }
+
+        private List<Wave> _waves = new List<Wave>();
+        private int _lifeSpan;
+    }
+
+    internal class Wave
+    {
+        internal float ExpansionRate = (float)(Sprite.RND.NextDouble() * Sprite.RND.NextDouble() * Sprite.RND.NextDouble() * 6);
+        internal Color Color;
+        internal float Radius;
+    }
+}

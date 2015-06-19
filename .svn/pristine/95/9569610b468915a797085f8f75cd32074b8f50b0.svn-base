@@ -1,0 +1,458 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Diagnostics;
+using System.Text;
+using System.Drawing;
+using System.ComponentModel;
+using System.Data;
+using ZedGraph;
+using MatrixLibrary;
+
+
+namespace SpriteLibrary
+{
+	//Движок
+	public class SpriteEngine
+	{
+
+		//Вовзращает класс, отвечающий за передвижение
+		public DestinationMover GetMover(Sprite sprite) {
+			DestinationMover dm = (DestinationMover) sprite.MovementData;
+			return dm;
+		}
+
+		//Лист спрайтов в движке
+		public IList<Sprite> Sprites {
+			get {
+				return _spriteList;
+			}
+		}
+
+        private int __offset = 56;
+        private Random rnd = new Random();
+		private Size _surfaceSize;
+		private int _offSetX;
+		private int _offSetY;
+        private Sprite _movingSprite;
+        private PointF _movingStartPoint; //if we move sprite
+        private int _clickedCornerInd = -1; //if we resizing sprite
+        public GraphPane forcePane;
+        public GraphPane momPane;
+        private Hashtable charts = new Hashtable();
+
+
+        public PointF MovingStartPoint {
+            get {
+                return _movingStartPoint;
+            }
+            set {
+                _movingStartPoint = value;
+            }   
+        }
+
+        public int ClickedCornerInd {
+            get {
+                return _clickedCornerInd;
+            }
+            set {
+                _clickedCornerInd = value;
+            }
+        }
+
+        public Sprite MovingSprite {
+            get {
+                return _movingSprite;
+            }
+            set {
+                _movingSprite = value;
+            }
+        }
+
+		public Size SurfaceSize {
+			get {
+				return _surfaceSize;
+			}
+			set {
+				_surfaceSize = value;
+			}
+		}
+
+		public int OffSetX {
+			get {
+				return _offSetX;
+			}
+			set {
+				_offSetX = value;
+			}
+		}
+
+		public int OffSetY {
+			get {
+				return _offSetY;
+			}
+			set {
+				_offSetY = value;
+			}
+		}
+
+		//Добавление спрайта в движок
+		public void AddSprite(Sprite sprite) {
+			if (sprite.Shape.X == -1)
+				throw new InvalidOperationException("Sprite's Shape must be set before adding to SpriteEngine");
+			//sprite._engine = this;
+			InitializeSprite(sprite);
+			lock (_spriteList) {
+				_spriteList.Add(sprite);
+			}
+		}
+
+		//Удаление спрайта из движка
+		public void RemoveSprite(Sprite sprite) {
+			sprite.Kill();
+		}
+
+		//Очищение движка от всех спрайтов
+		public void Clear() {
+			lock (_spriteList)
+				foreach (Sprite sprite in _spriteList)
+					sprite.Kill();
+		}
+
+		internal List<Sprite> _spriteList = new List<Sprite>();
+		public Sprite movingSprite;
+
+		//Пемещение спрайтов
+		public void MoveSprites() {
+			//Вызов метода перемещения для каждого спрайта в движке
+			lock (_spriteList) {
+				foreach (Sprite sprite in Sprites) {
+					sprite.PreProcess();
+					sprite.Process();
+					MoveSprite(sprite);
+				}
+			}
+		}
+
+		//Удаление мертвых спрайтов
+		public void RemoveDeadSprites() {
+			lock (_spriteList) {
+				for (int i = 0; i < Sprites.Count; i++) {
+					Sprite s = Sprites[i];
+					if (s.Dead) {
+						DeleteSprite(s);
+					}
+				}
+			}
+		}
+
+		//Удаление перед убийством
+		internal void DeleteSprite(Sprite sprite) {
+			_spriteList.Remove(sprite);
+			//sprite._engine = null;
+		}
+
+		protected void InitializeSprite(Sprite sprite) {
+			sprite.MovementData = new DestinationMover(sprite);
+		}
+
+		protected void MoveSprite(Sprite sprite) {
+			//Перемещаем один спрайт
+			DestinationMover sd = (DestinationMover) sprite.MovementData;
+			sd.MoveSprite();
+		}
+
+		//Обработка выхода за границы поля
+		public void WrapSprites() {
+			int Width = _surfaceSize.Width;
+			int Height = _surfaceSize.Height;
+			RectangleF region = new RectangleF(OffSetX, OffSetY, Width, Height);
+
+			lock (_spriteList) {
+				foreach (Sprite sprite in Sprites) {
+					if (!sprite.Bounds.IntersectsWith(region)) {
+						if (sprite.X < OffSetX)
+							sprite.X = Width + OffSetX - 1;
+						else if (sprite.X >= Width + OffSetX)
+							sprite.X = OffSetX;
+						if (sprite.Y < OffSetY)
+							sprite.Y = Height + OffSetY - 1;
+						else if (sprite.Y >= Height + OffSetY)
+							sprite.Y = OffSetY;
+					}
+				}
+			}
+		}
+
+		//Обработка столкновения спрайтов
+		public void PerformSelfCollisionDetection() {
+            
+            charts.Clear(); //Clear all charts and recalculate them
+            List<Sprite> points = new List<Sprite>();
+
+			lock (_spriteList) {
+				for (int i = 0; i < Sprites.Count; i++) {
+					Sprite s1 = Sprites[i];
+					for (int k = i + 1; k < Sprites.Count; k++) {
+						Sprite s2 = Sprites[k];
+						if (s1.ClickBounds.IntersectsWith(s2.ClickBounds)) {
+                            Sprite force = null, basement = null;
+                            if (s1 is BitmapSprite) {
+                                force = s1;
+                                basement = s2;
+                            }
+                            else if (s2 is BitmapSprite) {
+                                force = s2;
+                                basement = s1;
+                            }
+                            else continue;
+                            double forceP = force.ClickBounds.Y + force.ClickBounds.Height;
+                            if (( forceP > basement.ClickBounds.Y) && (forceP < basement.ClickBounds.Y + basement.ClickBounds.Height)) {
+                                force.PositionF = new PointF(force.PositionF.X, basement.ClickBounds.Y - force.ClickBounds.Height + 1);
+                            }
+                            else {
+                                force.PositionF = new PointF(force.PositionF.X, basement.ClickBounds.Y + basement.ClickBounds.Height - 1);
+                            }
+
+                            if (charts[basement] != null)
+                                points = (List<Sprite>)charts[basement];
+                            points.Add(force);
+                            charts[basement] = new List<Sprite>(points);
+                            points.Clear();
+						}
+					}
+				}
+			}
+            DrawGraphs();
+		}
+
+        private void DrawGraphs() {
+
+            CalcReactionForces();
+
+            forcePane.CurveList.Clear();
+
+            foreach (DictionaryEntry o in charts) { //go through all charts
+                
+                PointPairList list = new PointPairList();
+                
+                Sprite chart = (Sprite)o.Key;
+                List<Sprite> forces = (List<Sprite>)o.Value;
+                
+                forces.Sort(delegate(Sprite a, Sprite b) {
+                    return a.X.CompareTo(b.X);
+                });
+
+                double start = chart.X;
+                double chart_w = chart.X + chart.Width;
+                double y = 0, p = 0;
+
+                // draw (0;0) line until first force appears
+                list.Add(start - __offset, y);
+                list.Add(forces[0].X + forces[0].Width / 2 - __offset, y);
+
+                for (int i = 0; i <= forces.Count - 1; i++) { //every force in chart
+
+                    BitmapSprite s = (BitmapSprite)forces[i];
+                    if (i < forces.Count - 1) p = forces[i + 1].X + forces[i + 1].Width / 2; else p = chart_w;
+                    start = s.X + s.Width / 2;
+
+                    for (double j = start; j <= p; j++) {
+                        if (j == start) {
+                            if (!s.isSupport) y = s.Direction ? y - s.Height : y + s.Height;
+                            else y += s.reactionForce;
+                        }
+                        list.Add(j- __offset, y);
+                    }
+                    start = p;
+                }
+                LineItem curve = forcePane.AddCurve(chart.GetHashCode().ToString(), list, Color.Red, SymbolType.None);
+                curve.Line.Width = 2;
+                curve.Line.Fill = new Fill(Color.Wheat, Color.White, 90);
+            }   
+            
+            forcePane.AxisChange();
+        }
+
+        private void CalcReactionForces() {
+            foreach (DictionaryEntry o in charts) { //go through all charts
+                Sprite chart = (Sprite)o.Key;
+                List<Sprite> forces = (List<Sprite>)o.Value;
+
+                forces.Sort(delegate(Sprite a, Sprite b) {
+                    return a.X.CompareTo(b.X);
+                });
+                
+                List<Sprite> supports = forces.FindAll(delegate(Sprite s) {
+                    return ((BitmapSprite)s).isSupport;
+                });
+
+                double[] free_members = new double[supports.Count];
+                Matrix m = new Matrix(supports.Count, supports.Count);
+
+                for (int j = 0; j < supports.Count; j++) {
+                    for (int i = 0; i < forces.Count; i++) { //every force in chart
+                        BitmapSprite s = (BitmapSprite)forces[i];
+                        if (supports[j] == s) { //force == current support, coeff = 0
+                            m[j, j] = 0;
+                        }
+                        else if (s.isSupport) { //this is another support
+                            m[j, supports.IndexOf(s)] = Math.Abs(s.X + s.Width / 2 - supports[j].X);
+                        }
+                        else {
+                            int coeff = 0;
+                            if (s.X < supports[j].X) {
+                                if (s.Direction) coeff = 1; else coeff = -1;
+                            }
+                            else {
+                                if (s.Direction) coeff = -1; else coeff = 1;
+                            }
+                            free_members[j] += Math.Abs(s.X + s.Width / 2 - supports[j].X) * s.Height * coeff;
+                        }
+                    }
+                }
+
+                double det = Matrix.Det(m);
+                for (int i = 0; i < supports.Count - 1; i++) {
+                    Matrix mt = new Matrix(m.toArray);
+                    for (int j = 0; j < supports.Count; j++) {
+                        mt[j, i] = free_members[j];
+                    }
+                    double sdet = Matrix.Det(mt);
+                    ((BitmapSprite)supports[i]).reactionForce = sdet / det;
+                }
+            } 
+        }
+    }
+
+	//Класс, перемещающий к определенной точке
+	public class DestinationMover
+	{
+		private Sprite _sprite;
+		private float _speed;
+		private float _destX;
+		private float _destY;
+		private float _speedX;
+		private float _speedY;
+		private bool _stopAtDestination = true;
+
+		//Constructor
+		public DestinationMover(Sprite sprite) {
+			_sprite = sprite;
+		}
+
+		//Скорость
+		public float Speed {
+			get {
+				return _speed;
+			}
+			set {
+				_speed = value;
+			}
+		}
+		public float SpeedX {
+			get {
+				return _speedX;
+			}
+			set {
+				_speedX = value;
+			}
+		}
+		public float SpeedY {
+			get {
+				return _speedY;
+			}
+			set {
+				_speedY = value;
+			}
+		}
+
+		//Точка назначения
+		public float DestX {
+			get {
+				return _destX;
+			}
+			set {
+				_destX = value;
+				CalculateVectors();
+			}
+		}
+		public float DestY {
+			get {
+				return _destY;
+			}
+			set {
+				_destY = value;
+				CalculateVectors();
+			}
+		}
+		public PointF DestinationF {
+			get {
+				return new PointF(_destX, _destY);
+			}
+			set {
+				_destX = value.X;
+				_destY = value.Y;
+				CalculateVectors();
+			}
+		}
+
+		//Останавливаться ли при достижении точки назначения?
+		public bool StopAtDestination {
+			get {
+				return _stopAtDestination;
+			}
+			set {
+				_stopAtDestination = value;
+			}
+		}
+
+		//Вычисление скоростей по осям в зависимости от точки назначения
+		private void CalculateVectors() {
+			float Dist = Math.Abs(DestinationF.X - _sprite.PositionF.X) + Math.Abs(DestinationF.Y - _sprite.PositionF.Y);
+			if (Dist > 0) {
+				float PctX = Math.Abs(DestinationF.X - _sprite.PositionF.X) / Dist;
+				float PctY = Math.Abs(DestinationF.Y - _sprite.PositionF.Y) / Dist;
+				_speedX = _speed * PctX;
+				_speedY = _speed * PctY;
+				if (DestinationF.X < _sprite.PositionF.X)
+					_speedX = -_speedX;
+				if (DestinationF.Y < _sprite.PositionF.Y)
+					_speedY = -_speedY;
+			} else {
+				_speedX = _speed / 2;
+				_speedY = _speedX;
+			}
+		}
+
+		//Перемещаем спрайт
+		internal void MoveSprite() {
+			if (!_stopAtDestination) {
+				_sprite.X += _speedX;
+				_sprite.Y += _speedY;
+			}
+				//Если остановился при достижении пункта назначения
+			else {
+				PointF OldPos = _sprite.PositionF;
+				float Temp;
+
+				Temp = _sprite.PositionF.X + _speedX;
+				if (_speedX > 0 && Temp > DestinationF.X)
+					_sprite.X = DestX;
+				else if (_speedX < 0 && Temp < DestinationF.X)
+					_sprite.X = DestX;
+				else
+					_sprite.X += SpeedX;
+
+				Temp = _sprite.PositionF.Y + _speedY;
+				if (_speedY > 0 && Temp > DestinationF.Y)
+					_sprite.Y = DestY;
+				else if (_speedY < 0 && Temp < DestinationF.Y)
+					_sprite.Y = DestY;
+				else
+					_sprite.Y += SpeedY;
+			}
+		}
+	}
+}
+
